@@ -1,4 +1,5 @@
 # Be Assured: AI-Powered Parametric Insurance for Gig Workers
+Team: BYZANTINE
 > **Guidewire DEVTrails 2026 | Phase 1 Submission**  
 > Protecting quick-commerce delivery partners from income loss caused by uncontrollable external disruptions
 
@@ -522,4 +523,5 @@ The actuarial model is self-correcting at scale. The 15% embedded profit margin 
 ---
 
 > **Be Assured** — *Because every delivery partner deserves a safety net.*  
+> Team: BYZANTINE
 > Guidewire DEVTrails 2026 | Phase 1 — Ideation and Foundation
