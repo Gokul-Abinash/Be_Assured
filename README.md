@@ -177,6 +177,9 @@ Be Assured does **not** automatically assign a plan. Workers choose freely. The 
 
 ## 10. Mathematical and Financial Model
 
+The weights are considered as the parameters and are statically defined through **Acturial observations** currently, but will be tuned to optimal hyper parameters using the **neural network architecture** in the upcoming refinements.
+
+
 ### KPI Score (K) — Worker Performance Indicator
 
 ```
