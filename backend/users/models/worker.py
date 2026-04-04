@@ -14,7 +14,7 @@ class Worker(Base):
     mobile_number = Column(String(15), unique=True, nullable=False)
     full_name = Column(Text, nullable=False)
     aadhaar_hash = Column(Text, default="")
-    pan_number = Column(String(20), unique=True, nullable=True)
+    pan_number = Column(Text, unique=True, nullable=True)
 
     is_active = Column(Boolean, default=True)
     created_at = Column(TIMESTAMP(timezone=True), server_default=func.now())
