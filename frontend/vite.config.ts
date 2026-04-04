@@ -11,9 +11,9 @@ export default defineConfig({
   //   port: 5173,
   // },
 
-  server: {
-    host: "https://be-assured.vercel.app",
-  },
+  // server: {
+  //   host: "https://be-assured.vercel.app",
+  // },
   plugins: [
     react(),
     tailwindcss(),
