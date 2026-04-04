@@ -1,4 +1,4 @@
-import client, { BASE_URL } from "./client";
+import client from "./client";
 
 export interface KindeUser {
   id: string;
@@ -18,13 +18,13 @@ export const getUser = async (): Promise<KindeUser | null> => {
 };
 
 export const redirectToLogin = () => {
-  window.location.href = `${BASE_URL}/login`;
+  window.location.href = "http://127.0.0.1:8000/api/login";
 };
 
 export const redirectToRegister = () => {
-  window.location.href = `${BASE_URL}/register`;
+  window.location.href = "http://127.0.0.1:8000/api/register";
 };
 
 export const redirectToLogout = () => {
-  window.location.href = `${BASE_URL}/logout`;
+  window.location.href = "http://127.0.0.1:8000/api/logout";
 };

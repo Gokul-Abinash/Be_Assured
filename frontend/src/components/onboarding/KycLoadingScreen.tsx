@@ -118,7 +118,7 @@ export function KycLoadingScreen() {
 
         {/* Stage dots */}
         <div className="flex items-center justify-center gap-2">
-          {STAGES.map((s, i) => (
+          {STAGES.map((_, i) => (
             <div
               key={i}
               className={`w-2 h-2 rounded-full transition-all duration-500 ${
