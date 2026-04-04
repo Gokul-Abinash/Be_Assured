@@ -9,9 +9,6 @@ API Endpoints
 """
 
 
-@app.get("/")
-def read_root():
-    return {"Hello": "World"}
 
 
 @app.get("/user")
