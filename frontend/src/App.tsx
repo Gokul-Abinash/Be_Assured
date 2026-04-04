@@ -1,36 +1,25 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import appLogo from "/favicon.svg";
-import PWABadge from "./PWABadge.tsx";
-import "./App.css";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { LandingPage } from "@/pages/LandingPage";
+import { OnboardingPage } from "@/pages/OnboardingPage";
+import { DashboardPage } from "@/pages/DashboardPage";
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={appLogo} className="logo" alt="be-assured logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>be-assured</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-      <PWABadge />
-    </>
+    <BrowserRouter>
+      <Routes>
+        {/* Landing — login / register */}
+        <Route path="/" element={<LandingPage />} />
+
+        {/* Onboarding wizard — protected, requires Kinde session */}
+        <Route path="/onboarding" element={<OnboardingPage />} />
+
+        {/* Dashboard — shown after onboarding completes */}
+        <Route path="/dashboard" element={<DashboardPage />} />
+
+        {/* Catch-all */}
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
