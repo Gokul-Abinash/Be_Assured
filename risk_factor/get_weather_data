@@ -1,0 +1,176 @@
+import requests
+import pandas as pd
+from datetime import date, timedelta
+
+# -----------------------------
+# 1. Locations
+# -----------------------------
+locations = {
+    # "Coimbatore":(11.0055,76.9661),
+    "Chennai": (13.0827, 80.2707),
+    # "Mumbai": (19.0760, 72.8777)
+}
+
+# -----------------------------
+# 2. Date range (3 years)
+# -----------------------------
+end_date = date.today()
+start_date = end_date - timedelta(days=365)
+
+# -----------------------------
+# 3. Helper: Generate monthly chunks
+# -----------------------------
+def generate_date_ranges(start, end):
+    ranges = []
+    current = start
+
+    while current < end:
+        next_month = (current.replace(day=1) + timedelta(days=32)).replace(day=1)
+        ranges.append((current, min(next_month - timedelta(days=1), end)))
+        current = next_month
+
+    return ranges
+
+date_ranges = generate_date_ranges(start_date, end_date)
+
+import requests
+import time
+
+def safe_request(url, params, retries=3, timeout=10):
+    for attempt in range(retries):
+        try:
+            response = requests.get(url, params=params, timeout=timeout)
+            return response.json()
+
+        except requests.exceptions.Timeout:
+            print(f"⏳ Timeout... retry {attempt+1}/{retries}")
+            time.sleep(2)
+
+        except requests.exceptions.RequestException as e:
+            print(f"❌ Request failed: {e}")
+            break
+
+    return {}  # fallback if all retries fail
+
+# -----------------------------
+# 4. API functions
+# -----------------------------
+def fetch_weather(lat, lon, start, end):
+    url = "https://archive-api.open-meteo.com/v1/archive"
+
+    params = {
+        "latitude": lat,
+        "longitude": lon,
+        "start_date": start,
+        "end_date": end,
+        "daily": "temperature_2m_mean,precipitation_sum",
+        "timezone": "auto"
+    }
+
+    r = requests.get(url, params=params).json()
+
+    if "daily" not in r:
+        return pd.DataFrame()
+
+    return pd.DataFrame(r["daily"])
+
+
+def fetch_flood(lat, lon, start, end):
+    url = "https://flood-api.open-meteo.com/v1/flood"
+
+    params = {
+        "latitude": lat,
+        "longitude": lon,
+        "start_date": start,
+        "end_date": end,
+        "daily": "river_discharge"
+    }
+
+    r = safe_request(url, params)
+
+    if "daily" not in r:
+        print(f"⚠️ Flood data missing ({start} → {end})")
+        return pd.DataFrame()
+
+    return pd.DataFrame(r["daily"])
+
+
+def fetch_air_quality(lat, lon):
+    url = "https://air-quality-api.open-meteo.com/v1/air-quality"
+
+    end = date.today()
+    start = end - timedelta(days=30)
+
+    params = {
+        "latitude": lat,
+        "longitude": lon,
+        "start_date": start.strftime("%Y-%m-%d"),
+        "end_date": end.strftime("%Y-%m-%d"),
+        "hourly": "pm2_5"
+    }
+
+    r = requests.get(url, params=params).json()
+
+    if "hourly" not in r:
+        print("⚠️ AQI not available")
+        return pd.DataFrame()
+
+    df = pd.DataFrame(r["hourly"])
+
+    # ✅ Convert time properly
+    df["time"] = pd.to_datetime(df["time"])
+
+    # ✅ Create separate date column
+    df["date"] = df["time"].dt.date
+
+    # ✅ Group safely
+    df = df.groupby("date", as_index=False)["pm2_5"].mean()
+
+    return df
+
+# -----------------------------
+# 5. MAIN LOOP
+# -----------------------------
+all_city_data = {}
+
+for city, (lat, lon) in locations.items():
+    print(f"\nProcessing {city}...")
+
+    full_df = pd.DataFrame()
+
+    # ---- Weather + Flood in chunks ----
+    for start, end in date_ranges:
+        s = start.strftime("%Y-%m-%d")
+        e = end.strftime("%Y-%m-%d")
+
+        weather = fetch_weather(lat, lon, s, e)
+        flood = fetch_flood(lat, lon, s, e)
+        
+        time.sleep(0.5)
+        
+        if weather.empty:
+            continue
+
+        df = weather.copy()
+
+        if not flood.empty:
+            df = df.merge(flood, on="time", how="left")
+
+        full_df = pd.concat([full_df, df], ignore_index=True)
+
+    # ---- Air Quality (recent only) ----
+    air = fetch_air_quality(lat, lon)
+
+    if not air.empty:
+        full_df = full_df.merge(air, left_on="time", right_on="date", how="left")
+
+    all_city_data[city] = full_df
+
+    print(f"{city} → {len(full_df)} rows collected")
+
+# -----------------------------
+# 6. DONE
+# -----------------------------
+print("\nAll cities processed successfully!")
+
+print(all_city_data)
