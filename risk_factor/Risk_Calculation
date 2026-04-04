@@ -1,0 +1,73 @@
+def compute_trigger_flags(df):
+    df = df.copy()
+
+    # -------------------------
+    # 1. Heavy Rainfall
+    # -------------------------
+    df["heavy_rain"] = df["precipitation_sum"] >= 50
+
+    # -------------------------
+    # 2. Extreme Heat
+    # -------------------------
+    df["extreme_heat"] = df["temperature_2m_mean"] >= 42
+
+    # -------------------------
+    # 3. Air Pollution (proxy)
+    # -------------------------
+    if "pm2_5" in df.columns:
+        df["air_pollution"] = df["pm2_5"] >= 250
+    else:
+        df["air_pollution"] = False
+
+    # -------------------------
+    # 4. Flood (proxy)
+    # -------------------------
+    if "soil_moisture" in df.columns:
+        df["flood_risk"] = df["soil_moisture"] >= df["soil_moisture"].quantile(0.9)
+    else:
+        df["flood_risk"] = False
+
+    # -------------------------
+    # 5. ANY TRIGGER
+    # -------------------------
+    df["any_trigger"] = (
+        df["heavy_rain"] |
+        df["extreme_heat"] |
+        df["air_pollution"] |
+        df["flood_risk"]
+    )
+
+    return df
+
+def compute_risk_score(df):
+    total_days = len(df)
+
+    trigger_days = df["any_trigger"].sum()
+    print(trigger_days)
+    risk_percentage = (trigger_days / total_days) * 100
+    print(risk_percentage)
+    flood_risk = ((df['flood_risk']| df['heavy_rain']).sum()/total_days) * 100
+    print(flood_risk)
+    temp_risk = (df['extreme_heat'].sum()/total_days) * 100
+    print(temp_risk)
+    aqi_risk = (df['air_pollution'].sum()/total_days) * 100
+    print(aqi_risk)
+    return {'Total Risk':risk_percentage,
+            'Flood Risk':flood_risk,
+            'Heat Risk':temp_risk,
+            'AQI Risk':aqi_risk}
+
+
+from City import all_city_data
+risk_results = {}
+
+for city, df in all_city_data.items():
+    df = compute_trigger_flags(df)
+
+    print(df['any_trigger'])
+
+    risk = compute_risk_score(df)
+
+    risk_results[city] = risk
+
+    print(f"{city} Risk Score: {risk}")
