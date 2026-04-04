@@ -8,6 +8,9 @@ export interface KindeUser {
   picture?: string;
 }
 
+const BASE_URL =
+  import.meta.env.VITE_API_BASE_URL || "http://127.0.0.1:8000/api";
+
 export const getUser = async (): Promise<KindeUser | null> => {
   try {
     const res = await client.get<KindeUser>("/user");
@@ -18,13 +21,13 @@ export const getUser = async (): Promise<KindeUser | null> => {
 };
 
 export const redirectToLogin = () => {
-  window.location.href = "http://127.0.0.1:8000/api/login";
+  window.location.href = `${BASE_URL}/login`;
 };
 
 export const redirectToRegister = () => {
-  window.location.href = "http://127.0.0.1:8000/api/register";
+  window.location.href = `${BASE_URL}/register`;
 };
 
 export const redirectToLogout = () => {
-  window.location.href = "http://127.0.0.1:8000/api/logout";
+  window.location.href = `${BASE_URL}/logout`;
 };

@@ -1,6 +1,7 @@
 """
 API Endpoints
 """
+
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from config.database import SessionLocal
@@ -9,6 +10,7 @@ from users.schema.worker import CreateWorkerRequest, ZoneAssignRequest
 from users.schema.kyc import UploadKYCRequest
 
 app = APIRouter()
+
 
 def get_db():
     db = SessionLocal()
@@ -26,6 +28,7 @@ def create_worker(request: CreateWorkerRequest, db: Session = Depends(get_db)):
 @app.post("/register-zone")
 def register_zone(request: ZoneAssignRequest, db: Session = Depends(get_db)):
     return user_service.assign_zones(db, request)
+
 
 @app.post("/upload-kyc")
 def upload_kyc(request: UploadKYCRequest, db: Session = Depends(get_db)):

@@ -60,7 +60,9 @@ export function DashboardPage() {
             <div className="w-6 h-6 rounded-md bg-primary flex items-center justify-center">
               <Shield className="w-3.5 h-3.5 text-primary-foreground" />
             </div>
-            <span className="text-sm font-semibold tracking-tight">Be Assured</span>
+            <span className="text-sm font-semibold tracking-tight">
+              Be Assured
+            </span>
           </div>
 
           <div className="flex items-center gap-2">
@@ -78,7 +80,10 @@ export function DashboardPage() {
             >
               <Settings className="w-3.5 h-3.5" />
             </Button>
-            <Separator orientation="vertical" className="h-4 bg-white/10 mx-1" />
+            <Separator
+              orientation="vertical"
+              className="h-4 bg-white/10 mx-1"
+            />
             <Button
               variant="ghost"
               onClick={() => redirectToLogout()}
@@ -125,14 +130,21 @@ export function DashboardPage() {
         {/* Stats grid */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           {QUICK_STATS.map(({ label, value, icon: Icon, isGreen }) => (
-            <Card key={label} className="border-white/8 bg-white/3 hover:border-white/12 transition-colors">
+            <Card
+              key={label}
+              className="border-white/8 bg-white/3 hover:border-white/12 transition-colors"
+            >
               <CardContent className="p-5 flex items-center gap-4">
                 <div className="w-9 h-9 rounded-lg bg-white/5 flex items-center justify-center">
-                  <Icon className={`w-4 h-4 ${isGreen ? "text-emerald-400" : "text-primary"}`} />
+                  <Icon
+                    className={`w-4 h-4 ${isGreen ? "text-emerald-400" : "text-primary"}`}
+                  />
                 </div>
                 <div>
                   <p className="text-xs text-muted-foreground">{label}</p>
-                  <p className={`text-sm font-semibold mt-0.5 ${isGreen ? "text-emerald-400" : "text-foreground"}`}>
+                  <p
+                    className={`text-sm font-semibold mt-0.5 ${isGreen ? "text-emerald-400" : "text-foreground"}`}
+                  >
                     {value}
                   </p>
                 </div>
@@ -159,7 +171,9 @@ export function DashboardPage() {
               <div className="flex-1 min-w-0">
                 <p className="text-sm font-semibold truncate">{displayName}</p>
                 {user?.email && (
-                  <p className="text-xs text-muted-foreground mt-0.5 truncate">{user.email}</p>
+                  <p className="text-xs text-muted-foreground mt-0.5 truncate">
+                    {user.email}
+                  </p>
                 )}
                 <div className="flex items-center gap-2 mt-2">
                   <Badge className="text-[10px] px-1.5 py-0 h-4 bg-emerald-500/15 text-emerald-400 border border-emerald-500/25">

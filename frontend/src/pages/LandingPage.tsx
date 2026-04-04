@@ -38,7 +38,9 @@ export function LandingPage() {
           <div className="w-7 h-7 rounded-lg bg-primary flex items-center justify-center">
             <Shield className="w-4 h-4 text-primary-foreground" />
           </div>
-          <span className="text-sm font-semibold tracking-tight">Be Assured</span>
+          <span className="text-sm font-semibold tracking-tight">
+            Be Assured
+          </span>
         </div>
         <Badge
           variant="outline"
@@ -120,7 +122,9 @@ export function LandingPage() {
               </div>
               <div className="space-y-1">
                 <h3 className="text-sm font-semibold">{title}</h3>
-                <p className="text-xs text-muted-foreground leading-relaxed">{desc}</p>
+                <p className="text-xs text-muted-foreground leading-relaxed">
+                  {desc}
+                </p>
               </div>
             </div>
           ))}
@@ -128,14 +132,17 @@ export function LandingPage() {
 
         {/* Trust indicators */}
         <div className="flex flex-wrap items-center justify-center gap-4 mt-12 text-xs text-muted-foreground">
-          {["SOC 2 Compliant", "GDPR Ready", "99.9% Uptime", "24/7 Support"].map(
-            (item) => (
-              <div key={item} className="flex items-center gap-1.5">
-                <CheckCircle2 className="w-3 h-3 text-primary" />
-                <span>{item}</span>
-              </div>
-            )
-          )}
+          {[
+            "SOC 2 Compliant",
+            "GDPR Ready",
+            "99.9% Uptime",
+            "24/7 Support",
+          ].map((item) => (
+            <div key={item} className="flex items-center gap-1.5">
+              <CheckCircle2 className="w-3 h-3 text-primary" />
+              <span>{item}</span>
+            </div>
+          ))}
         </div>
       </main>
 
