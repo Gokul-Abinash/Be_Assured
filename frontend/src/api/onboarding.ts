@@ -70,17 +70,16 @@ export const getPrimaryZones = async (): Promise<Zone[]> => {
   } catch {
     // Graceful fallback mock data
     return [
-      { zone_id: 1, zone_name: "North Zone" },
-      { zone_id: 2, zone_name: "South Zone" },
-      { zone_id: 3, zone_name: "East Zone" },
-      { zone_id: 4, zone_name: "West Zone" },
-      { zone_id: 5, zone_name: "Central Zone" },
-      { zone_id: 101, zone_name: "Sector A" },
-      { zone_id: 102, zone_name: "Sector B" },
-      { zone_id: 103, zone_name: "Sector C" },
-      { zone_id: 104, zone_name: "Sector D" },
-      { zone_id: 105, zone_name: "Sector E" },
-      { zone_id: 106, zone_name: "Sector F" },
+      { zone_id: 1, zone_name: "Mumbai" },
+      { zone_id: 2, zone_name: "Delhi" },
+      { zone_id: 3, zone_name: "Bengaluru" },
+      { zone_id: 4, zone_name: "Hyderabad" },
+      { zone_id: 5, zone_name: "Chennai" },
+      { zone_id: 6, zone_name: "Kolkata" },
+      { zone_id: 7, zone_name: "Pune" },
+      { zone_id: 8, zone_name: "Ahmedabad" },
+      { zone_id: 9, zone_name: "Jaipur" },
+      { zone_id: 10, zone_name: "Lucknow" },
     ];
   }
 };
@@ -93,17 +92,16 @@ export const getSecondaryZones = async (): Promise<Zone[]> => {
   } catch {
     // Graceful fallback mock data
     return [
-      { zone_id: 1, zone_name: "North Zone" },
-      { zone_id: 2, zone_name: "South Zone" },
-      { zone_id: 3, zone_name: "East Zone" },
-      { zone_id: 4, zone_name: "West Zone" },
-      { zone_id: 5, zone_name: "Central Zone" },
-      { zone_id: 101, zone_name: "Sector A" },
-      { zone_id: 102, zone_name: "Sector B" },
-      { zone_id: 103, zone_name: "Sector C" },
-      { zone_id: 104, zone_name: "Sector D" },
-      { zone_id: 105, zone_name: "Sector E" },
-      { zone_id: 106, zone_name: "Sector F" },
+      { zone_id: 1, zone_name: "Mumbai" },
+      { zone_id: 2, zone_name: "Delhi" },
+      { zone_id: 3, zone_name: "Bengaluru" },
+      { zone_id: 4, zone_name: "Hyderabad" },
+      { zone_id: 5, zone_name: "Chennai" },
+      { zone_id: 6, zone_name: "Kolkata" },
+      { zone_id: 7, zone_name: "Pune" },
+      { zone_id: 8, zone_name: "Ahmedabad" },
+      { zone_id: 9, zone_name: "Jaipur" },
+      { zone_id: 10, zone_name: "Lucknow" },
     ];
   }
 };

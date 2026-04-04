@@ -31,8 +31,6 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         config.FRONTEND_URL,
-        "http://127.0.0.1:5173",
-        "http://localhost:5173",
     ],
     allow_credentials=True,
     allow_methods=["*"],
@@ -46,14 +44,14 @@ app.add_middleware(
     https_only=False,
 )
 
-# app=app lets SDK register FrameworkMiddleware for PKCE session handling
+# Connect OAuth to the app for proper session management
 oauth = OAuth(
     framework="fastapi",
-    app=app,
     client_id=config.KINDE_CLIENT_ID,
     client_secret=config.KINDE_CLIENT_SECRET,
     host=config.KINDE_DOMAIN,
     redirect_uri=config.KINDE_CALLBACK_URL,
+    app=app,  # This is crucial for state management
 )
 
 app.include_router(users_router, prefix="/api/users")
@@ -62,23 +60,34 @@ app.include_router(auth_router, prefix="/api/auth")
 
 @app.get("/api/login")
 async def login(request: Request):
-    stale_keys = [k for k in request.session.keys() if k.startswith("device:")]
-    for k in stale_keys:
-        del request.session[k]
-    request.session["auth_flow"] = "login"  # returning user → dashboard
+    # Wipe the session to keep cookie size minimal
+    request.session.clear()
+    request.session["auth_flow"] = "login"
+
     url = await oauth.login()
-    print(f"[login] → {url}", flush=True)
+
+    # Capture the device_id the SDK just generated
+    request.session["current_device_id"] = oauth._framework.get_name()
+    print(
+        f"[login] device_id={request.session['current_device_id']} → {url}", flush=True
+    )
     return RedirectResponse(url=url)
 
 
 @app.get("/api/register")
 async def register(request: Request):
-    stale_keys = [k for k in request.session.keys() if k.startswith("device:")]
-    for k in stale_keys:
-        del request.session[k]
-    request.session["auth_flow"] = "register"  # new user → onboarding
+    # Wipe the session to keep cookie size minimal
+    request.session.clear()
+    request.session["auth_flow"] = "register"
+
     url = await oauth.register()
-    print(f"[register] → {url}", flush=True)
+
+    # Capture the device_id the SDK just generated
+    request.session["current_device_id"] = oauth._framework.get_name()
+    print(
+        f"[register] device_id={request.session['current_device_id']} → {url}",
+        flush=True,
+    )
     return RedirectResponse(url=url)
 
 
@@ -88,21 +97,10 @@ async def callback(
 ):
     try:
         print(f"[callback] code={code[:10]}... state={state}", flush=True)
+        print(f"[callback] session keys: {list(request.session.keys())}", flush=True)
 
-        # Extract device_id from the session key (device:<uuid>:state)
-        device_id = None
-        for key in request.session.keys():
-            if key.endswith(":state"):
-                device_id = key.split(":")[1]
-                break
-
-        if not device_id:
-            raise HTTPException(status_code=400, detail="No device session found")
-
-        print(f"[callback] device_id={device_id}", flush=True)
-
-        # Correct call: handle_redirect(code, user_id, state)
-        result = await oauth.handle_redirect(code, device_id, state)
+        # Let the SDK handle the state validation automatically
+        result = await oauth.handle_redirect(code, state)
 
         # Extract user from result
         user_data = result.get("user", {}) if isinstance(result, dict) else {}

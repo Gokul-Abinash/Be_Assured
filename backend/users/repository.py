@@ -6,7 +6,7 @@ from sqlalchemy.orm import Session
 from users.models.worker import Worker
 from users.models.worker_zone import WorkerZone
 import uuid
-from utils.security import hash_aadhaar
+from utils.security import hash_aadhaar, hash_pan
 
 
 class UserRepository:
@@ -39,7 +39,7 @@ class UserRepository:
             raise Exception("Worker not found")
 
         worker.aadhaar_hash = hash_aadhaar(aadhaar)
-        worker.pan_number = pan
+        worker.pan_number = hash_pan(pan)
 
         db.commit()
         db.refresh(worker)
