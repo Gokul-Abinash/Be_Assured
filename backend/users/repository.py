@@ -16,7 +16,7 @@ class UserRepository:
             worker_id=uuid.uuid4(),
             mobile_number=data.phone,
             full_name=f"{data.first_name} {data.last_name}",
-            aadhaar_hash=""
+            aadhaar_hash="a"
         )
         db.add(worker)
         db.commit()
