@@ -6,6 +6,10 @@ import path from "path";
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  server: {
+    host: "127.0.0.1",
+    port: 5173,
+  },
   plugins: [
     react(),
     tailwindcss(),
