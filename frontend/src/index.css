@@ -139,11 +139,7 @@ html {
 
 /* Gradient text utility */
 .gradient-text {
-  background: linear-gradient(
-    135deg,
-    oklch(0.75 0.18 264),
-    oklch(0.7 0.2 285)
-  );
+  background: linear-gradient(135deg, oklch(0.75 0.18 264), oklch(0.7 0.2 285));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;

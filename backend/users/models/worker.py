@@ -4,6 +4,7 @@ from sqlalchemy.sql import func
 import uuid
 from config.base import Base
 
+
 class Worker(Base):
     __tablename__ = "workers"
 

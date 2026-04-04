@@ -24,7 +24,9 @@ export function OnboardingPage() {
       <div className="min-h-screen animated-bg flex items-center justify-center">
         <div className="flex flex-col items-center gap-4">
           <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
-          <p className="text-sm text-muted-foreground">Loading your session...</p>
+          <p className="text-sm text-muted-foreground">
+            Loading your session...
+          </p>
         </div>
       </div>
     );
@@ -48,7 +50,9 @@ export function OnboardingPage() {
           <div className="w-6 h-6 rounded-md bg-primary flex items-center justify-center">
             <Shield className="w-3.5 h-3.5 text-primary-foreground" />
           </div>
-          <span className="text-sm font-semibold tracking-tight">Be Assured</span>
+          <span className="text-sm font-semibold tracking-tight">
+            Be Assured
+          </span>
         </div>
         <div className="flex items-center gap-3">
           {user && (

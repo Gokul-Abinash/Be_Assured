@@ -21,13 +21,14 @@ export function StepIndicator({
         <div className="absolute top-4 left-0 right-0 flex">
           {Array.from({ length: totalSteps - 1 }).map((_, i) => (
             <div key={i} className="flex-1 flex items-center">
-              <div className="w-full mx-8 h-px" style={{ marginLeft: "2rem", marginRight: "2rem" }}>
+              <div
+                className="w-full mx-8 h-px"
+                style={{ marginLeft: "2rem", marginRight: "2rem" }}
+              >
                 <div
                   className={cn(
                     "h-full transition-all duration-500",
-                    i + 1 < currentStep
-                      ? "bg-primary"
-                      : "bg-white/10"
+                    i + 1 < currentStep ? "bg-primary" : "bg-white/10",
                   )}
                   style={{ width: "100%" }}
                 />
@@ -46,13 +47,12 @@ export function StepIndicator({
               <div
                 className={cn(
                   "w-8 h-8 rounded-full flex items-center justify-center text-xs font-semibold transition-all duration-300",
-                  isCompleted &&
-                    "bg-primary text-primary-foreground",
+                  isCompleted && "bg-primary text-primary-foreground",
                   isCurrent &&
                     "bg-primary text-primary-foreground ring-4 ring-primary/25 step-active",
                   !isCompleted &&
                     !isCurrent &&
-                    "bg-white/5 text-muted-foreground border border-white/10"
+                    "bg-white/5 text-muted-foreground border border-white/10",
                 )}
               >
                 {isCompleted ? (
@@ -64,7 +64,7 @@ export function StepIndicator({
               <span
                 className={cn(
                   "text-xs font-medium text-center transition-colors duration-300 hidden sm:block",
-                  isCurrent ? "text-foreground" : "text-muted-foreground"
+                  isCurrent ? "text-foreground" : "text-muted-foreground",
                 )}
               >
                 {labels[i]}

@@ -2,9 +2,21 @@ import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { assignZone, getPrimaryZones, getSecondaryZones, type Zone } from "@/api/onboarding";
+import {
+  assignZone,
+  getPrimaryZones,
+  getSecondaryZones,
+  type Zone,
+} from "@/api/onboarding";
 import { cn } from "@/lib/utils";
-import { MapPin, ChevronDown, Search, X, ArrowRight, ArrowLeft } from "lucide-react";
+import {
+  MapPin,
+  ChevronDown,
+  Search,
+  X,
+  ArrowRight,
+  ArrowLeft,
+} from "lucide-react";
 
 interface StepZoneSetupProps {
   workerId: string;
@@ -46,7 +58,7 @@ function ZoneSelect({
   const filtered = zones.filter(
     (z) =>
       !excludeIds.includes(z.zone_id) &&
-      z.zone_name.toLowerCase().includes(search.toLowerCase())
+      z.zone_name.toLowerCase().includes(search.toLowerCase()),
   );
 
   useEffect(() => {
@@ -89,13 +101,15 @@ function ZoneSelect({
             "bg-white/5 border border-white/10 hover:border-white/20",
             open && "border-primary/60 ring-2 ring-primary/20",
             error && "border-destructive/60",
-            disabled && "opacity-50 cursor-not-allowed"
+            disabled && "opacity-50 cursor-not-allowed",
           )}
         >
           <span className="flex items-center gap-2 min-w-0">
             <MapPin className="w-3.5 h-3.5 text-muted-foreground shrink-0" />
             {value ? (
-              <span className="text-foreground truncate">{value.zone_name}</span>
+              <span className="text-foreground truncate">
+                {value.zone_name}
+              </span>
             ) : (
               <span className="text-muted-foreground">{placeholder}</span>
             )}
@@ -116,7 +130,7 @@ function ZoneSelect({
             <ChevronDown
               className={cn(
                 "w-3.5 h-3.5 text-muted-foreground transition-transform",
-                open && "rotate-180"
+                open && "rotate-180",
               )}
             />
           </div>
@@ -157,7 +171,8 @@ function ZoneSelect({
                     className={cn(
                       "w-full px-3 py-2 text-sm text-left flex items-center gap-2 transition-colors",
                       "hover:bg-white/8 text-foreground",
-                      value?.zone_id === zone.zone_id && "bg-primary/15 text-primary"
+                      value?.zone_id === zone.zone_id &&
+                        "bg-primary/15 text-primary",
                     )}
                   >
                     <MapPin className="w-3.5 h-3.5 shrink-0" />
@@ -176,7 +191,11 @@ function ZoneSelect({
 
 // ─── Main Component ───────────────────────────────────────────────────────────
 
-export function StepZoneSetup({ workerId, onNext, onBack }: StepZoneSetupProps) {
+export function StepZoneSetup({
+  workerId,
+  onNext,
+  onBack,
+}: StepZoneSetupProps) {
   const [primaryZones, setPrimaryZones] = useState<Zone[]>([]);
   const [secondaryZones, setSecondaryZones] = useState<Zone[]>([]);
   const [loadingZones, setLoadingZones] = useState(true);
@@ -192,7 +211,10 @@ export function StepZoneSetup({ workerId, onNext, onBack }: StepZoneSetupProps) 
   useEffect(() => {
     const fetchZones = async () => {
       setLoadingZones(true);
-      const [p, s] = await Promise.all([getPrimaryZones(), getSecondaryZones()]);
+      const [p, s] = await Promise.all([
+        getPrimaryZones(),
+        getSecondaryZones(),
+      ]);
       setPrimaryZones(p);
       setSecondaryZones(s);
       setLoadingZones(false);
@@ -230,9 +252,13 @@ export function StepZoneSetup({ workerId, onNext, onBack }: StepZoneSetupProps) 
       });
       onNext();
     } catch (err: unknown) {
-      const error = err as { response?: { data?: { detail?: string } }; message?: string };
+      const error = err as {
+        response?: { data?: { detail?: string } };
+        message?: string;
+      };
       setApiError(
-        error?.response?.data?.detail || "Failed to assign zones. Please try again."
+        error?.response?.data?.detail ||
+          "Failed to assign zones. Please try again.",
       );
     } finally {
       setLoading(false);

@@ -6,7 +6,7 @@ DATABASE_URL = os.getenv("DATABASE_URL")
 
 engine = create_engine(
     DATABASE_URL,
-    connect_args={"sslmode": "require"}  # needed for NeonDB
+    connect_args={"sslmode": "require"},  # needed for NeonDB
 )
 
 SessionLocal = sessionmaker(bind=engine, autoflush=False, autocommit=False)

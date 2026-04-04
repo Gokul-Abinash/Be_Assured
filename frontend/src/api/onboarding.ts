@@ -42,23 +42,23 @@ export interface ZonesResponse {
 // ─── API Calls ────────────────────────────────────────────────────────────────
 
 export const createWorker = async (
-  data: CreateWorkerRequest
+  data: CreateWorkerRequest,
 ): Promise<CommonResponse> => {
-  const res = await client.post<CommonResponse>("/users/worker", data);
+  const res = await client.post<CommonResponse>("/users/create-worker", data);
   return res.data;
 };
 
 export const assignZone = async (
-  data: ZoneAssignRequest
+  data: ZoneAssignRequest,
 ): Promise<CommonResponse> => {
-  const res = await client.post<CommonResponse>("/users/zone", data);
+  const res = await client.post<CommonResponse>("/users/register-zone", data);
   return res.data;
 };
 
 export const uploadKYC = async (
-  data: UploadKYCRequest
+  data: UploadKYCRequest,
 ): Promise<CommonResponse> => {
-  const res = await client.post<CommonResponse>("/users/kyc", data);
+  const res = await client.post<CommonResponse>("/users/upload-kyc", data);
   return res.data;
 };
 
@@ -75,6 +75,12 @@ export const getPrimaryZones = async (): Promise<Zone[]> => {
       { zone_id: 3, zone_name: "East Zone" },
       { zone_id: 4, zone_name: "West Zone" },
       { zone_id: 5, zone_name: "Central Zone" },
+      { zone_id: 101, zone_name: "Sector A" },
+      { zone_id: 102, zone_name: "Sector B" },
+      { zone_id: 103, zone_name: "Sector C" },
+      { zone_id: 104, zone_name: "Sector D" },
+      { zone_id: 105, zone_name: "Sector E" },
+      { zone_id: 106, zone_name: "Sector F" },
     ];
   }
 };
@@ -87,6 +93,11 @@ export const getSecondaryZones = async (): Promise<Zone[]> => {
   } catch {
     // Graceful fallback mock data
     return [
+      { zone_id: 1, zone_name: "North Zone" },
+      { zone_id: 2, zone_name: "South Zone" },
+      { zone_id: 3, zone_name: "East Zone" },
+      { zone_id: 4, zone_name: "West Zone" },
+      { zone_id: 5, zone_name: "Central Zone" },
       { zone_id: 101, zone_name: "Sector A" },
       { zone_id: 102, zone_name: "Sector B" },
       { zone_id: 103, zone_name: "Sector C" },

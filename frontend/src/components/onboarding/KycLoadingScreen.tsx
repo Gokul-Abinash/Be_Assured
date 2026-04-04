@@ -39,7 +39,7 @@ export function KycLoadingScreen() {
         setTimeout(() => {
           setStageIndex(i);
           stageIdx = i;
-        }, delay)
+        }, delay),
       );
       elapsed += STAGES[i].duration;
     }
@@ -106,10 +106,7 @@ export function KycLoadingScreen() {
 
         {/* Progress bar */}
         <div className="space-y-3">
-          <Progress
-            value={progress}
-            className="h-1.5 bg-white/10"
-          />
+          <Progress value={progress} className="h-1.5 bg-white/10" />
           <div className="flex items-center justify-between text-xs text-muted-foreground">
             <span>KYC Processing</span>
             <span>{Math.round(progress)}%</span>

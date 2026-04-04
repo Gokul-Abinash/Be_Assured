@@ -65,9 +65,13 @@ export function StepKYC({ workerId, onSubmit, onBack }: StepKYCProps) {
       });
       onSubmit();
     } catch (err: unknown) {
-      const error = err as { response?: { data?: { detail?: string } }; message?: string };
+      const error = err as {
+        response?: { data?: { detail?: string } };
+        message?: string;
+      };
       setApiError(
-        error?.response?.data?.detail || "KYC submission failed. Please try again."
+        error?.response?.data?.detail ||
+          "KYC submission failed. Please try again.",
       );
     } finally {
       setLoading(false);
@@ -79,19 +83,23 @@ export function StepKYC({ workerId, onSubmit, onBack }: StepKYCProps) {
     const raw = e.target.value.replace(/\D/g, "").slice(0, 12);
     const formatted = raw.replace(/(\d{4})(?=\d)/g, "$1 ").trim();
     setForm((prev) => ({ ...prev, aadhaar_number: formatted }));
-    if (errors.aadhaar_number) setErrors((prev) => ({ ...prev, aadhaar_number: undefined }));
+    if (errors.aadhaar_number)
+      setErrors((prev) => ({ ...prev, aadhaar_number: undefined }));
   };
 
   const handlePanChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.toUpperCase().slice(0, 10);
     setForm((prev) => ({ ...prev, pan_number: value }));
-    if (errors.pan_number) setErrors((prev) => ({ ...prev, pan_number: undefined }));
+    if (errors.pan_number)
+      setErrors((prev) => ({ ...prev, pan_number: undefined }));
   };
 
   return (
     <div className="animate-fade-in-up space-y-6">
       <div className="space-y-1">
-        <h2 className="text-2xl font-bold tracking-tight">Identity verification</h2>
+        <h2 className="text-2xl font-bold tracking-tight">
+          Identity verification
+        </h2>
         <p className="text-muted-foreground text-sm">
           Your documents are encrypted and stored securely.
         </p>
@@ -104,7 +112,9 @@ export function StepKYC({ workerId, onSubmit, onBack }: StepKYCProps) {
             <Shield className="w-4 h-4 text-primary" />
           </div>
           <div>
-            <p className="text-xs font-medium text-foreground">256-bit encrypted</p>
+            <p className="text-xs font-medium text-foreground">
+              256-bit encrypted
+            </p>
             <p className="text-xs text-muted-foreground">
               Your KYC data is protected and never shared without consent.
             </p>
@@ -130,14 +140,16 @@ export function StepKYC({ workerId, onSubmit, onBack }: StepKYCProps) {
               onChange={handleAadhaarChange}
               className={cn(
                 "pl-9 bg-white/5 border-white/10 focus:border-primary/60 transition-colors font-mono tracking-widest text-sm",
-                errors.aadhaar_number && "border-destructive/60"
+                errors.aadhaar_number && "border-destructive/60",
               )}
             />
           </div>
           {errors.aadhaar_number ? (
             <p className="text-xs text-destructive">{errors.aadhaar_number}</p>
           ) : (
-            <p className="text-xs text-muted-foreground">12-digit Aadhaar UID</p>
+            <p className="text-xs text-muted-foreground">
+              12-digit Aadhaar UID
+            </p>
           )}
         </div>
 
@@ -158,7 +170,7 @@ export function StepKYC({ workerId, onSubmit, onBack }: StepKYCProps) {
               onChange={handlePanChange}
               className={cn(
                 "pl-9 bg-white/5 border-white/10 focus:border-primary/60 transition-colors font-mono tracking-widest text-sm uppercase",
-                errors.pan_number && "border-destructive/60"
+                errors.pan_number && "border-destructive/60",
               )}
             />
           </div>

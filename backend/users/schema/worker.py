@@ -1,6 +1,7 @@
 from pydantic import BaseModel
 from typing import List
 
+
 class CreateWorkerRequest(BaseModel):
     first_name: str
     last_name: str

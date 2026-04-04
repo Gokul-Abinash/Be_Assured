@@ -17,6 +17,7 @@ class Configuration:
         self.SESSION_SECRET_KEY = self.get(
             "SESSION_SECRET_KEY", default="a_very_secret_key"
         )
+        self.FRONTEND_URL = self.get("FRONTEND_URL", default="http://localhost:5173")
 
     def get(self, key: str, cast=str, default=None, required=False):
         val = os.getenv(key, default)
